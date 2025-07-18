@@ -6,25 +6,37 @@
     <title>Spotlight</title>
     <link rel="stylesheet" href="style.css">
 </head>
+<style>
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 5px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+</style>
 <body>
-    <div class="nav translucent">
-        <div class="container">
-            <div class="left">
-                <p>Spotlight</p>
-            </div>
-            <div class="center">
-                <a href="index.html">Home</a>
-                <a href="search.html">Search</a>
-                <a href="trending.html">Trending</a>
-                <a href="about.html">About</a>
-            </div>
-            <div class="right">
-                <a href="#" class="button">Login</a>
+    <div class="sudo-nav">
+        <a href="index.html"><p>← Back</p></a>
+    </div>
+    <div class="signin-container">
+        <div class="left-side">
+            <div class="center1">
+                <h1>Sign in to Spotlight</h1>
+                <form id="signin-form">
+                    <input type="text" name="email" placeholder="Enter your email..." class="email-input" required>
+
+                    <input type="password" name="password" placeholder="Enter your password..." class="password-input" style="display: none;" />
+
+                    <div class="child-div">
+                        <a href="signup.html">Sign up</a>
+                        <input type="submit" value="Continue" class="button" id="continue-btn">
+                    </div>
+                </form>
+                <script src="signin.js" defer></script>
             </div>
         </div>
-    </div>
-    <div class="search-page">
-
+        <div class="right-side"></div>
     </div>
 </body>
 </html>

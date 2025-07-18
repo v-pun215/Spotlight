@@ -210,3 +210,192 @@ html {
     padding: 20px;
     width:80%;
 }
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+.card {
+    position: relative; /* make it a container for absolute children */
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    width: 40vh;
+    height: 45vh;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.822), rgba(0, 0, 0, 0.024)); /* Optional: darkens bottom */
+    color: white;
+    z-index: 2;
+}
+
+.card .name-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.card .location-title {
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
+.card .button1 {
+    padding: 5px 10px;
+    background-color: rgba(255,255,255,0.2);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 1rem;
+    margin-top: 10px;
+    display: inline-block;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.card .button1:hover {
+    background-color: rgba(255,255,255,0.3);
+    transform: scale(1.05);
+}
+.bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.stars {
+    color: gold;
+    font-size: 1.15rem;
+    letter-spacing: 2px;
+    user-select: none;
+    margin-top: 7px;
+}
+.sudo-nav {
+    padding:20px 20px;
+    position:fixed;
+    z-index:1000;
+    top: 0;
+}
+.sudo-nav p {
+    margin: 0;
+    font-size: 1.2rem;
+    color: black;
+    transition: color 0.3s ease;
+}
+.sudo-nav p:hover {
+    color: rgba(0, 0, 0, 0.7);
+}
+.sudo-nav a {
+    text-decoration: none;
+    color: black;
+    width:fit-content;
+    background-color: red;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+.signin-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%; 
+}
+.signin-container .left-side {
+    width: 28.8%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: flex-start; 
+    transform: translateY(-10%); 
+}
+.signin-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+.center1 {
+    width: 80%;
+    align-self: center;
+}
+.center1 .email-input {
+    width:100%;
+    box-sizing: border-box;
+    padding: 12px 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    font-size: 1rem;
+    font-family: 'DM Sans', sans-serif;
+    background: rgba(255, 255, 255, 0.1);
+    color: black;
+    transition: border-color 0.3s ease;
+}
+.password-input {
+    display: none;
+    margin-top: 10px;
+    width:100%;
+    box-sizing: border-box;
+    padding: 12px 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    font-size: 1rem;
+    font-family: 'DM Sans', sans-serif;
+    background: rgba(255, 255, 255, 0.1);
+    color: black;
+    transition: border-color 0.3s ease;
+}
+.child-div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.child-div a {
+    color: rgba(0, 0, 0, 0.7);
+    text-decoration: underline;
+    transition: color 0.3s ease;
+    margin-top:7px;
+}
+.child-div .button {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.right-side {
+    background-image: url(signin-banner.jpg);
+    background-size: cover;
+    background-position: center;
+    width: 71.2%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 15px;
+}
