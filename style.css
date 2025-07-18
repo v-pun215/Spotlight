@@ -1,0 +1,212 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: white;
+    color: black;
+    margin: 0;
+    height: 100%;
+}
+html {
+    height: 100%;
+    margin: 0;
+}
+
+.nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    color: white;
+    z-index: 1000;
+
+}
+.transparent {
+    background-color: transparent;
+}
+.translucent {
+    background-color: rgba(0, 0, 0, 0.476);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.nav .container {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    height: 9vh;
+}
+
+.nav .left, .nav .right {
+    display: flex;
+    align-items: center;
+    z-index: 1; 
+}
+.nav .right {
+    margin-left: auto;
+}
+.nav .left {
+    font-size: 1.7rem;
+    font-weight: 500;
+    cursor:default;
+}
+.nav .center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.nav .center a {
+    color: rgba(220, 220, 220, 0.7);
+    transition: color 0.3s ease;
+}
+
+.nav .center a.active {
+    color: white;
+}
+
+.nav a {
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: color 0.3s ease;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.nav a:hover {
+    color: rgba(255, 255, 255, 1);
+}
+.nav .button {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 8px 16px;
+    font-size: 2vh;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-family: 'DM Sans', sans-serif;
+    text-decoration: none;
+}
+
+.nav .button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.03);
+}
+
+.banner {
+    background-image: url(banner.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    padding: 0 20px;
+    color: white;
+}
+
+.banner h1,
+.banner h2 {
+    margin: 0; 
+    padding: 0.5em 0;
+}
+
+.banner h2 {
+    font-size: 3vh;
+    font-weight: 400;
+    opacity: 0.85;
+    font-style: italic;
+    margin-bottom: -20px;
+}
+
+.banner h1 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400; 
+    font-variation-settings: "wght" 400;
+    font-size: 3rem;
+}
+.button {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 2vh;
+    font-weight: 500;
+    padding: 10px 24px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        text-decoration: none;
+}
+
+.button:hover {
+    background: rgba(255, 255, 255, 0.16);
+    transform: scale(1.04);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.search-div {
+    background-image: url('searchbanner.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 30vh;
+
+    position: relative;
+    padding-top: 9vh;
+}
+
+.search-input {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 90%;
+    max-width: 600px;
+    height: 60px;
+    padding: 0 20px;
+
+    border-radius: 40px;
+    border: none;
+    font-size: 1.1rem;
+    font-family: 'DM Sans', sans-serif;
+
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.137);
+    outline: none;
+    background: rgba(0, 0, 0, 0.161);
+    transition: all 0.3s ease;
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.search-input:focus {
+    background: rgba(0, 0, 0, 0.055);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.35);
+}
+.explore-div {
+    padding: 20px;
+    width:80%;
+}
