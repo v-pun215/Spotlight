@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const password = form.password.value;
 
     try {
-      const res = await fetch("http://127.0.0.1:5000/signin", {
+      const res = await fetch("https://spotlight-97bl.onrender.com/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
