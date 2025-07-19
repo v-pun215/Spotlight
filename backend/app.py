@@ -3,73 +3,125 @@ from flask_cors import CORS
 from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
+import jwt
+import datetime
+from functools import wraps
 
 load_dotenv()
 
+
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, supports_credentials=True, origins=["http://127.0.0.1:5500"]) 
 
 
+SECRET_KEY = os.getenv("SECRET_KEY")
 client = MongoClient(os.getenv("MONGO_URI"))
 db = client["spotlight"]
 users_collection = db["users"]
 
-# -------------------------------
-# SIGN UP
-# -------------------------------
-@app.route("/signup", methods=["POST", "OPTIONS"])
-def signup():
-    if request.method == "OPTIONS":
-        return _build_cors_preflight_response()
 
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = None
+        if 'Authorization' in request.headers:
+            auth_header = request.headers['Authorization']
+            if auth_header.startswith("Bearer "):
+                token = auth_header.split(" ")[1]
+
+        if not token:
+            return jsonify({"error": "Token is missing!"}), 401
+
+        try:
+            data = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+            request.user_email = data['email']
+        except jwt.ExpiredSignatureError:
+            return jsonify({"error": "Token expired"}), 401
+        except jwt.InvalidTokenError:
+            return jsonify({"error": "Invalid token"}), 401
+
+        return f(*args, **kwargs)
+    return decorated
+
+
+@app.route("/signup", methods=["POST"])
+def signup():
     data = request.json
     email = data.get("email")
+    password = data.get("password")
 
-    if not email:
-        return _corsify_actual_response(jsonify({"error": "Email is required"}), 400)
+    if not email or not password:
+        return jsonify({"error": "Email and password are required"}), 400
 
     if users_collection.find_one({"email": email}):
-        return _corsify_actual_response(jsonify({"error": "Email already exists"}), 409)
+        return jsonify({"error": "Email already exists"}), 409
 
-    users_collection.insert_one({"email": email})
-    return _corsify_actual_response(jsonify({"message": "User created"}), 201)
+    users_collection.insert_one({"email": email, "password": password})
 
-# -------------------------------
-# SIGN IN
-# -------------------------------
-@app.route("/signin", methods=["POST", "OPTIONS"])
+    payload = {
+        "email": email,
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(days=1)
+    }
+    token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+
+    return jsonify({
+        "message": "User created",
+        "token": token,
+        "user": { "email": email }
+    }), 201
+
+@app.route("/signin", methods=["POST"])
 def signin():
-    if request.method == "OPTIONS":
-        return _build_cors_preflight_response()
-
     data = request.json
     email = data.get("email")
+    password = data.get("password")
 
-    if not email:
-        return _corsify_actual_response(jsonify({"error": "Email is required"}), 400)
+    if not email or not password:
+        return jsonify({"error": "Email and password are required"}), 400
 
     user = users_collection.find_one({"email": email})
-    if not user:
-        return _corsify_actual_response(jsonify({"error": "User not found"}), 404)
 
-    return _corsify_actual_response(jsonify({"message": "Login successful"}), 200)
+    if not user or user.get("password") != password:
+        return jsonify({"error": "Invalid email or password"}), 401
 
-# -------------------------------
-# CORS Helpers
-# -------------------------------
-def _build_cors_preflight_response():
-    response = jsonify()
-    response.status_code = 200
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    response.headers.add("Access-Control-Allow-Headers", "Content-Type")
-    response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
-    return response
+    payload = {
+        "email": email,
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(days=1)
+    }
+    token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
 
-def _corsify_actual_response(response, status_code=200):
-    response.status_code = status_code
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    return response
+    return jsonify({
+        "message": "Login successful",
+        "token": token,
+        "user": {
+            "email": email,
+            "name": user.get("name"),
+            "username": user.get("username")
+        }
+    }), 200
 
-# -------------------------------
+
+@app.route("/profile", methods=["POST"])
+@token_required
+def profile():
+    data = request.json
+    name = data.get("name")
+    username = data.get("username")
+
+    if not name or not username:
+        return jsonify({"error": "Name and username are required"}), 400
+
+    # Ensure username is unique
+    if users_collection.find_one({"username": username}):
+        return jsonify({"error": "Username already taken"}), 409
+
+    users_collection.update_one(
+        {"email": request.user_email},
+        {"$set": {"name": name, "username": username}}
+    )
+
+    return jsonify({"message": "Profile saved successfully"}), 200
+
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -4,8 +4,13 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const email = form.email.value;
+    const email = form.email.value.trim();
     const password = form.password.value;
+
+    if (!email || !password) {
+      alert("Please enter both email and password.");
+      return;
+    }
 
     try {
       const res = await fetch("http://127.0.0.1:5000/signup", {
@@ -20,17 +25,21 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await res.json();
 
       if (res.ok) {
-        // Store email in cookie
-        document.cookie = `email=${encodeURIComponent(email)}; path=/`;
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
 
-        alert("Signup successful! Redirecting...");
-        window.location.href = "index.html";
+        const user = data.user;
+        if (!user.name || !user.username) {
+          window.location.href = "index.html?showProfile=1";
+        } else {
+          window.location.href = "index.html";
+        }
       } else {
-        alert(data.message || "Signup failed");
+        alert(data.error || "Signup failed");
       }
     } catch (err) {
       console.error("Error during signup:", err);
-      alert("Something went wrong.");
+      alert("Something went wrong. Please try again.");
     }
   });
 });

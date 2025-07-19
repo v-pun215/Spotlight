@@ -8,17 +8,14 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const email = form.email.value;
-
     if (stage === 1) {
-      // Show password field
       passwordInput.style.display = "block";
-      passwordInput.required = true;
       continueBtn.value = "Sign in";
       stage = 2;
       return;
     }
 
+    const email = form.email.value;
     const password = form.password.value;
 
     try {
@@ -27,24 +24,28 @@ document.addEventListener("DOMContentLoaded", () => {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ email, password }),
-        credentials: "include"
+        body: JSON.stringify({ email, password })
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        // Store email in cookie
-        document.cookie = `email=${encodeURIComponent(email)}; path=/`;
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
 
-        alert("Login successful!");
-        window.location.href = "dashboard.html";
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (!user.name || !user.username) {
+          window.location.href = "index.html?showProfile=1";
+        } else {
+          window.location.href = "index.html";
+        }
       } else {
-        alert(data.message || "Login failed");
+        alert(data.error || "Login failed");
       }
+
     } catch (err) {
-      console.error("Error during signin:", err);
-      alert("Something went wrong.");
+      console.error("Error during sign in:", err);
+      alert("Could not connect to server.");
     }
   });
 });

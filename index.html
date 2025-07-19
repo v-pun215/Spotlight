@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spotlight</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="popups.css">
 </head>
 <body>
     <div class="nav">
@@ -19,14 +20,29 @@
                 <a href="contact.html">Contact</a>
             </div>
             <div class="right">
-                <a href="signin.html" class="button">Sign in</a>
+                <a id="signin-btn" href="signin.html" class="button">Sign in</a>
             </div>
         </div>
     </div>
     <div class="banner">
         <h2>Discover Delhi</h2>
         <h1>A Journey of Tradition, </br>Innovation, and Natural Beauty</h1>
-        <a href="search.html" class="button">Explore Now</a>
+        <a href="explore.html" class="button">Explore Now</a>
     </div>
+    <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (token && user) {
+      console.log("User:", user);
+      console.log("Token:", token);
+    } else {
+      console.log("User not logged in.");
+    }
+  });
+</script>
+<script src="profile.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
