@@ -11,7 +11,10 @@ load_dotenv()
 
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True, origins=["https://spotlight-delhi.vercel.app"])
+CORS(app, supports_credentials=True, origins=[
+    "http://127.0.0.1:5500",
+    "https://spotlight-delhi.vercel.app"
+])
 
 
 SECRET_KEY = os.getenv("SECRET_KEY")
