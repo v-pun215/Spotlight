@@ -19,7 +19,7 @@
                 <a href="contact.html">Contact</a>
             </div>
             <div class="right">
-                <a href="signin.html" class="button">Sign up</a>
+                <a href="signin.html" class="button">Sign in</a>
             </div>
         </div>
     </div>
@@ -46,5 +46,68 @@
             </div>
         </div>
     </div>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const cardsContainer = document.querySelector(".cards");
+  const searchInput = document.querySelector(".search-input");
+
+  // Function to create and add a card to DOM
+  function createCard(place) {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <img src="${place.img}" alt="Image">
+      <div class="overlay">
+        <p class="name-title">${place.name}</p>
+        <p class="location-title">${place.desc}</p>
+        <div class="bottom-row">
+          <a href="#" class="button1">See more</a>
+          <div class="stars">★ ${place.rating}</div>
+        </div>
+      </div>
+    `;
+
+    cardsContainer.appendChild(card);
+  }
+
+  // Load trending places
+  async function loadTrending() {
+    try {
+      const res = await fetch("http://localhost:3000/");
+      const data = await res.json();
+      cardsContainer.innerHTML = ""; // Clear existing
+      data.forEach(createCard);
+    } catch (err) {
+      console.error("Failed to load trending places:", err);
+    }
+  }
+
+  // Search functionality
+  searchInput.addEventListener("keypress", async (e) => {
+    if (e.key === "Enter") {
+      const query = searchInput.value.trim();
+      if (!query) return;
+
+      try {
+        const res = await fetch(`http://localhost:3000/query?name=${encodeURIComponent(query)}`);
+        const place = await res.json();
+        cardsContainer.innerHTML = "";
+        if (place.error) {
+          cardsContainer.innerHTML = `<p>No results found.</p>`;
+        } else {
+          createCard(place);
+        }
+      } catch (err) {
+        console.error("Search failed:", err);
+        cardsContainer.innerHTML = `<p>Error fetching result.</p>`;
+      }
+    }
+  });
+
+  // Initial load
+  loadTrending();
+});
+</script>
 </body>
 </html>

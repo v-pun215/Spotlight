@@ -1,9 +1,16 @@
 const express = require("express");
 const axios = require("axios");
+const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
 const PORT = 3000;
+
+// Allow frontend (5500) to access backend
+app.use(cors({
+  origin: "http://127.0.0.1:5500",
+  credentials: true
+}));
 
 const FSQ_SERVICE_KEY = process.env.FSQ_SERVICE_KEY;
 
@@ -43,6 +50,7 @@ async function getWikiData(title) {
     };
   }
 }
+
 
 async function formatPlace(place) {
   const { fsq_place_id, name, latitude, longitude } = place;

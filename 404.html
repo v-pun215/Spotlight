@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotlight</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="popups.css">
+</head>
+<body>
+    <div class="nav">
+        <div class="container transparent">
+            <div class="left">
+                <p>Spotlight</p>
+            </div>
+            <div class="center">
+                <a href="index.html">Home</a>
+                <a href="explore.html">Explore</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="right">
+                <a id="signin-btn" href="signin.html" class="button">Sign in</a>
+            </div>
+        </div>
+    </div>
+    <div class="banner">
+        <h1>Page not found</h1>
+        <a href="index.html" class="button">Return to Home</a>
+    </div>
+    <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (token && user) {
+      console.log("User:", user);
+      console.log("Token:", token);
+    } else {
+      console.log("User not logged in.");
+    }
+  });
+</script>
+<script src="profile.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
