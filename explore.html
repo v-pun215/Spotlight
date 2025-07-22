@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Load trending places
   async function loadTrending() {
     try {
-      const res = await fetch("http://localhost:3000/");
+      const res = await fetch("https://spotlightapi.onrender.com/");
       const data = await res.json();
       cardsContainer.innerHTML = ""; // Clear existing
       data.forEach(createCard);
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!query) return;
 
       try {
-        const res = await fetch(`http://localhost:3000/query?name=${encodeURIComponent(query)}`);
+        const res = await fetch(`https://spotlightapi.onrender.com/query?name=${encodeURIComponent(query)}`);
         const place = await res.json();
         cardsContainer.innerHTML = "";
         if (place.error) {
