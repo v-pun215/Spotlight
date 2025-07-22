@@ -6,10 +6,8 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Allow frontend (5500) to access backend
 app.use(cors({
-  origin: "http://127.0.0.1:5500",
-  credentials: true
+	origin: "http://127.0.0.1:5500"
 }));
 
 const FSQ_SERVICE_KEY = process.env.FSQ_SERVICE_KEY;
