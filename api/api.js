@@ -7,7 +7,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors({
-	origin: "http://127.0.0.1:5500"
+	origin: "https://spotlight-delhi.vercel.app",
+	methods: ["GET"],
+	credentials: false
 }));
 
 const FSQ_SERVICE_KEY = process.env.FSQ_SERVICE_KEY;
