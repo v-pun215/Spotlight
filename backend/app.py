@@ -46,6 +46,9 @@ def token_required(f):
         return f(*args, **kwargs)
     return decorated
 
+@app.route("/", methods=["GET"])
+def home():
+    return jsonify({"status": "Spotlight backend is running 🚀"}), 200
 
 @app.route("/signup", methods=["POST"])
 def signup():
